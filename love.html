@@ -290,7 +290,13 @@
     <h1>My Love Gallery ❤️</h1>
     <p>A special collection of memories just for us</p>
   </header>
-
+ <!-- Song player button -->
+  <div class="song-player" style="text-align:center; margin-bottom:1.5rem;">
+    <audio id="loveSong" src="Tera Hone Laga Hoon Full Song Video - Ajab Prem Ki Ghazab Kahani ｜ Atif & Alisha Chinai ｜ Pritam (mp3cut.net).mp3"></audio>
+    <button id="playSongBtn" class="btn-love-quote" type="button" aria-label="Play Pehla Nasha song" style="margin-top:0.5rem;">
+      ▶️ Play Song
+    </button>
+  </div>
   <section class="gallery" aria-label="Photo gallery">
     <article class="gallery-item" tabindex="0" data-caption="Our First Date" data-src="1.jpeg" >
       <img src="1.jpeg" alt="Couple holding hands standing on path with sunset" />
@@ -314,13 +320,7 @@
     </article>
   </section>
 
-  <!-- Song player button -->
-  <div class="song-player" style="text-align:center; margin-bottom:1.5rem;">
-    <audio id="loveSong" src="pehla-nasha.mp3"></audio>
-    <button id="playSongBtn" class="btn-love-quote" type="button" aria-label="Play Pehla Nasha song" style="margin-top:0.5rem;">
-      ▶️ Play "Pehla Nasha"
-    </button>
-  </div>
+ 
 
   <section class="love-quotes-container" aria-live="polite" aria-atomic="true">
     <div class="quote-text" id="quoteText">Click the button below to see a love quote!</div>
@@ -441,17 +441,17 @@
     playSongBtn.addEventListener('click', () => {
       if (!isPlaying) {
         loveSong.play();
-        playSongBtn.textContent = '⏸️ Pause "Pehla Nasha"';
+        playSongBtn.textContent = '⏸️ Pause Song';
         isPlaying = true;
       } else {
         loveSong.pause();
-        playSongBtn.textContent = '▶️ Play "Pehla Nasha"';
+        playSongBtn.textContent = '▶️ Play Song';
         isPlaying = false;
       }
     });
 
     loveSong.addEventListener('ended', () => {
-      playSongBtn.textContent = '▶️ Play "Pehla Nasha"';
+      playSongBtn.textContent = '▶️ Play Song';
       isPlaying = false;
     });
 
@@ -459,3 +459,4 @@
 </script>
 </body>
 </html>
+
