@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>My Love Gallery & Quotes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;600&display=swap');
+
+  :root {
+    --primary-color: #f28ab2;
+    --secondary-color: #ffccd5;
+    --background-color: #fff0f6;
+    --text-color: #5a2a3a;
+    --shadow-color: rgba(242, 138, 178, 0.4);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0 1rem 3rem 1rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  header {
+    text-align: center;
+    margin: 2rem 0 2rem;
+  }
+
+  header h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 3.5rem;
+    margin: 0;
+    color: var(--primary-color);
+    text-shadow: 2px 2px 4px var(--shadow-color);
+  }
+
+  header p {
+    font-size: 1.25rem;
+    margin-top: 0.25rem;
+    color: #8a496a;
+  }
+
+  /* Changed gallery layout for vertical stacking */
+  .gallery {
+    max-width: 480px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .gallery-item {
+    position: relative;
+    cursor: pointer;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 15px var(--shadow-color);
+    transition: transform 0.3s ease;
+    background: white;
+    width: 100%;
+  }
+
+  .gallery-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 12px 25px var(--shadow-color);
+  }
+
+  .gallery-item img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 3 / 4;
+    border-radius: 12px;
+    transition: height 0.3s ease;
+  }
+
+  .caption {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 0.75rem;
+    background: rgba(242, 138, 178, 0.75);
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+    user-select: none;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+  }
+
+  /* Modal styles */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    padding: 1rem;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background: rgba(90, 42, 58, 0.85);
+    backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal.open {
+    display: flex;
+  }
+
+  .modal-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .modal-content img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px var(--shadow-color);
+  }
+
+  .modal-caption {
+    margin-top: 0.5rem;
+    text-align: center;
+    color: #ffd7e0;
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.75rem;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--primary-color);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    width: 36px;
+    height: 36px;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    transition: background-color 0.3s ease;
+  }
+
+  .close-btn:hover {
+    background: #e64a7f;
+  }
+
+  /* Quotes section */
+  .love-quotes-container {
+    max-width: 600px;
+    width: 100%;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 18px var(--shadow-color);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    color: var(--text-color);
+    margin-bottom: 3rem;
+  }
+
+  .quote-text {
+    font-style: italic;
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.8rem;
+    margin-bottom: 1.25rem;
+    color: var(--primary-color);
+    min-height: 6rem;
+    user-select: none;
+  }
+
+  .quote-author {
+    font-size: 1rem;
+    color: #9c6378;
+    margin-bottom: 2rem;
+  }
+
+  .btn-love-quote {
+    background: var(--primary-color);
+    border: none;
+    border-radius: 30px;
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 0.75rem 2.5rem;
+    cursor: pointer;
+    box-shadow: 0 6px 15px var(--shadow-color);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    user-select: none;
+  }
+
+  .btn-love-quote:hover {
+    background: #e64a7f;
+    transform: translateY(-3px);
+  }
+
+  footer {
+    margin-top: auto;
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: #9c6378;
+    text-align: center;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    body {
+      padding: 0 0.5rem 2rem 0.5rem;
+    }
+    header h1 {
+      font-size: 2.5rem;
+    }
+    header p {
+      font-size: 1rem;
+    }
+    /* Gallery vertical layout same on smaller screens but max width shrinks */
+    .gallery {
+      max-width: 100%;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .gallery-item img {
+      aspect-ratio: 3 / 4;
+    }
+    .caption {
+      font-size: 0.875rem;
+      padding: 0.5rem;
+    }
+    .modal-content {
+      max-width: 95vw;
+      max-height: 80vh;
+    }
+    .modal-caption {
+      font-size: 1.25rem;
+      margin-top: 0.75rem;
+    }
+    .close-btn {
+      width: 30px;
+      height: 30px;
+      font-size: 1.25rem;
+      top: 8px;
+      right: 8px;
+    }
+    .love-quotes-container {
+      padding: 1.25rem 1rem;
+      margin-bottom: 2rem;
+    }
+    .quote-text {
+      font-size: 1.4rem;
+      min-height: 5rem;
+    }
+    .btn-love-quote {
+      font-size: 1rem;
+      padding: 0.6rem 2rem;
+    }
+  }
+
+  @media (max-width: 350px) {
+    header h1 {
+      font-size: 2rem;
+    }
+    .gallery-item img {
+      aspect-ratio: 3 / 4;
+    }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>My Love Gallery ❤️</h1>
+    <p>A special collection of memories just for us</p>
+  </header>
+
+  <section class="gallery" aria-label="Photo gallery">
+    <article class="gallery-item" tabindex="0" data-caption="Our First Date" data-src="1.jpeg" >
+      <img src="1.jpeg" alt="Couple holding hands standing on path with sunset" />
+      <div class="caption">Our First Date</div>
+    </article>
+    <article class="gallery-item" tabindex="0" data-caption="Sunset Together" data-src="2.jpeg">
+      <img src="2.jpeg" alt="Couple watching sunset sitting on rocks" />
+      <div class="caption">Sunset Together</div>
+    </article>
+    <article class="gallery-item" tabindex="0" data-caption="Joyful Moments" data-src="4.jpeg">
+      <img src="4.jpeg" alt="Couple playful and laughing in sunlight" />
+      <div class="caption">Joyful Moments</div>
+    </article>
+    <article class="gallery-item" tabindex="0" data-caption="Hand in Hand" data-src="3.jpeg">
+      <img src="3.jpeg" alt="Close up of couple holding hands walking" />
+      <div class="caption">Hand in Hand</div>
+    </article>
+    <article class="gallery-item" tabindex="0" data-caption="In the Rain" data-src="5.jpeg">
+      <img src="5.jpeg" alt="Couple sharing umbrella in rain street" />
+      <div class="caption">In the Rain</div>
+    </article>
+  </section>
+
+  <!-- Song player button -->
+  <div class="song-player" style="text-align:center; margin-bottom:1.5rem;">
+    <audio id="loveSong" src="pehla-nasha.mp3"></audio>
+    <button id="playSongBtn" class="btn-love-quote" type="button" aria-label="Play Pehla Nasha song" style="margin-top:0.5rem;">
+      ▶️ Play "Pehla Nasha"
+    </button>
+  </div>
+
+  <section class="love-quotes-container" aria-live="polite" aria-atomic="true">
+    <div class="quote-text" id="quoteText">Click the button below to see a love quote!</div>
+    <div class="quote-author" id="quoteAuthor"></div>
+    <button class="btn-love-quote" id="newQuoteBtn" type="button" aria-label="Show me a new love quote">Surprise me with a Love Quote ❤️</button>
+  </section>
+
+  <!-- Modal for enlarged image -->
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-caption">
+    <div class="modal-content">
+      <button class="close-btn" aria-label="Close">&times;</button>
+      <img src="" alt="" id="modal-image" />
+      <div class="modal-caption" id="modal-caption"></div>
+    </div>
+  </div>
+
+  <footer>
+    Made with ❤️ for Anjali
+  </footer>
+
+<script>
+  (function(){
+    // Photo gallery modal part
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const modal = document.querySelector('.modal');
+    const modalImage = document.getElementById('modal-image');
+    const modalCaption = document.getElementById('modal-caption');
+    const closeBtn = modal.querySelector('.close-btn');
+
+    function openModal(src, caption, alt) {
+      modalImage.src = src;
+      modalImage.alt = alt;
+      modalCaption.textContent = caption;
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      modalImage.src = '';
+      modalCaption.textContent = '';
+      document.body.style.overflow = '';
+    }
+
+    galleryItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const src = item.getAttribute('data-src');
+        const caption = item.getAttribute('data-caption');
+        const alt = item.querySelector('img').alt;
+        openModal(src, caption, alt);
+      });
+      item.addEventListener('keydown', (e) => {
+        if(e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          const src = item.getAttribute('data-src');
+          const caption = item.getAttribute('data-caption');
+          const alt = item.querySelector('img').alt;
+          openModal(src, caption, alt);
+        }
+      });
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === "Escape" && modal.classList.contains('open')) {
+        closeModal();
+      }
+    });
+
+    // Love quotes/messages part
+    const quotes = [
+      { text: "Love is composed of a single soul inhabiting two bodies.", author: "Aristotle" },
+      { text: "You don’t love someone because they’re perfect, you love them in spite of the fact that they’re not.", author: "Jodi Picoult" },
+      { text: "I saw that you were perfect, and so I loved you. Then I saw that you were not perfect and I loved you even more.", author: "Angelita Lim" },
+      { text: "Love recognizes no barriers. It jumps hurdles, leaps fences, penetrates walls to arrive at its destination full of hope.", author: "Maya Angelou" },
+      { text: "Being deeply loved by someone gives you strength, while loving someone deeply gives you courage.", author: "Lao Tzu" },
+      { text: "Every heart sings a song, incomplete, until another heart whispers back.", author: "Plato" },
+      { text: "True love stories never have endings.", author: "Richard Bach" },
+      { text: "You + Me = ❤️", author: "" },
+      { text: "Love is not about how many days, months, or years you’ve been together. Love is about how much you love each other every single day.", author: "" },
+      { text: "Together is a wonderful place to be.", author: "" },
+      { text: "I choose you. And I’ll choose you over and over and over. Without pause, without a doubt, in a heartbeat. I’ll keep choosing you.", author: "Unknown" },
+      { text: "Where there is love there is life.", author: "Mahatma Gandhi" }
+    ];
+
+    const quoteTextEl = document.getElementById('quoteText');
+    const quoteAuthorEl = document.getElementById('quoteAuthor');
+    const newQuoteBtn = document.getElementById('newQuoteBtn');
+
+    function showRandomQuote() {
+      const randomIndex = Math.floor(Math.random() * quotes.length);
+      const quote = quotes[randomIndex];
+      quoteTextEl.textContent = `“${quote.text}”`;
+      quoteAuthorEl.textContent = quote.author ? `— ${quote.author}` : '';
+    }
+
+    newQuoteBtn.addEventListener('click', () => {
+      showRandomQuote();
+      newQuoteBtn.focus();
+    });
+
+    // Show a quote on page load
+    showRandomQuote();
+
+    // Song play button logic
+    const loveSong = document.getElementById('loveSong');
+    const playSongBtn = document.getElementById('playSongBtn');
+    let isPlaying = false;
+
+    playSongBtn.addEventListener('click', () => {
+      if (!isPlaying) {
+        loveSong.play();
+        playSongBtn.textContent = '⏸️ Pause "Pehla Nasha"';
+        isPlaying = true;
+      } else {
+        loveSong.pause();
+        playSongBtn.textContent = '▶️ Play "Pehla Nasha"';
+        isPlaying = false;
+      }
+    });
+
+    loveSong.addEventListener('ended', () => {
+      playSongBtn.textContent = '▶️ Play "Pehla Nasha"';
+      isPlaying = false;
+    });
+
+  })();
+</script>
+</body>
+</html>
